@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up Form</title>
+        <!-- <link rel="stylesheet" type='text/css' href="css/normalize.css"> -->
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/bootstrap4.css">
+    </head>
+    <body>
+        <!-- BEGIN NAVIGATION-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+              data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#!">Bartender Tools</a>
+          
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+              <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#!">Home
+                    <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#!">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#!">Disabled</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+              </form>
+            </div>
+          </nav> <!--END NAVIGATION-->
+        
+        
+        <!-- BEGIN JUMBOTRON -->
+        <div class="jumbotron">
+            <h1 class="display-3">Hello, world!</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention
+              to featured content or information.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger
+              container.</p>
+            <p class="lead">
+              <a class="btn btn-light" href="#!" role="button">Learn more</a>
+            </p>
+          </div>
+
+        <!-- BEGIN PRODUCT INPUT FORM-->
+        <div class="container">
+            <form id="gpCalculator" name="gp_calulator">
+              <h1>Simple GP Calulator</h1>
+            
+              <fieldset>  
+                <legend><span class="number">1</span>Basic Product Info</legend>
+                  <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" name="product_name">
+                  <label for="costPrice">Cost Price(net)</label>
+                    <input type="text" id="costPrice" name="product_cost_price">
+                  <label for="sellingPrice">Selling Price (inc VAT)</label>
+                    <input type="text" id="sellingPrice" name="product_selling_price">
+                  <label for="vatRate">Vat Rate:</label>
+                    <select id="vatRate" name="VAT_rate">
+                      <option value="20percent">20%</option>
+                      <option value="zero">Zero</option>
+                    </select>
+              </fieldset>
+
+              <button id="calculate" class="btn btn-lg btn-dark" type="button">Calulate GP</button>
+              </form>
+        </div> <!-- END PRODUCT INPUT FORM-->
+        
+        <!-- BEGIN PRODUCTS CONTAINER -->
+        <div class="container">
+          <h2>Products</h2>
+      
+          <section id="productContainer">
+          </section>
+
+        </div>
+      
+      
+
+
+
+
+    <script src="JS/app.js"></script>
+    </body>
+</html>
