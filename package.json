@@ -1,0 +1,22 @@
+{
+  "name": "gp-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickCallaghan/GP-Calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickCallaghan/GP-Calculator/issues"
+  },
+  "homepage": "https://github.com/NickCallaghan/GP-Calculator#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1"
+  }
+}

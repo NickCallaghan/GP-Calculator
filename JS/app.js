@@ -16,14 +16,33 @@ let products = []; // Array of objects containing all products
 /////////////////////////
 
 class Product{
-    constructor(name, costPrice, vatFactor, sellingPrice, cashProfit, gpPercentage){
+    
+    constructor(name, costPrice, sellingPrice, vatPercent){
+        this.id = products.length+1;
         this.name = name;
         this.costPrice = costPrice;
-        this.vatFactor = vatFactor;
         this.sellingPrice = sellingPrice;
-        this.cashProfit = cashProfit;
-        this.gpPercentage = gpPercentage;
+        this.vatPercent = vatPercent;
+        this.cashProfit = this.calcCashProfit();
+        this.gpPercent = this.calcGpPercent();     
     }
+
+    calcCashProfit(){
+        return (this.sellingPrice / this.returnVatX()) - this.costPrice;
+    }
+
+    calcGpPercent(){
+        const vatX = this.returnVatX(this.vatPercent);
+        const sellingPrice = this.sellingPrice;
+        const costPrice = this.costPrice;
+        const gpPercent = (((sellingPrice/ vatX) - costPrice) / ( sellingPrice/ vatX) * 100);
+        return gpPercent
+    }
+
+    returnVatX(){
+        return (this.vatPercent/100)+1;
+    }
+
 }
 
 /////////////////////////
@@ -34,78 +53,77 @@ function clearForm(){
     form_product.value = '';
     form_cost.value = '';
     form_selling.value = '';
-    form_vatRate.value = '';
+    form_vatRate.value = '20';
 }
 
-//Creates a product card for a new product and inserts to the pages
-function createProductCards(product){
+function formValidates(){
+
+    return true;
+}
+
+function addProduct(){
+    
+    const productName = form_product.value;
+    const costPrice = parseFloat(form_cost.value);
+    const sellingPrice = parseFloat(form_selling.value);
+    const vatPercent = parseFloat(form_vatRate.value); 
+
+    if (formValidates){
+
+        const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
+        products.push(newProduct);
+
+        generateProductDiv(newProduct);
+        clearForm();    
+    }
+}
+
+function generateProductDiv(newProduct){
 
     let productDiv = document.createElement('DIV');
     productDiv.classList.add('product');
-    let name = product['name'];
-    let costPrice = product['costPrice'];
-    let sellingPrice = product['sellingPrice'];
-    let cashProfit = product['cashProfit']
-    let gpPercentage = product['gpPercentage'];
+    productDiv.setAttribute("data-product-id", newProduct.id);
+    
+    let name = newProduct.name;
+    let costPrice = newProduct.costPrice.toFixed(2);
+    let sellingPrice = newProduct.sellingPrice.toFixed(2);
+    let cashProfit = newProduct.cashProfit.toFixed(2);
+    let gpPercent = newProduct.gpPercent.toFixed(2);
 
     let innerHTML =
-        `<div class="card">
-            <div class="card-body">
-                <h4 class="card-title">${name}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">GP: ${gpPercentage}%</h6>
+        `<div class="card ml-2 mr-1 mb-2 p-0 pb-2">
+            <div class="card-body p-0">
+                <h4 class="card-title m-4">${name}</h4>
+                <h6 class="card-subtitle ml-4 text-muted">GP: ${gpPercent}%</h6>
                 <p class="card-text">
-                    <ul>
-                        <li>Cash Profit: £${cashProfit}</li>
-                        <li>Cost Price: £${costPrice}</li>
-                        <li><p>Selling Price: £${sellingPrice}</li>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between"><span class="text-muted">Cash Profit:</span> £${cashProfit}</li>
+                        <li class="list-group-item d-flex justify-content-between"><span class="text-muted">Cost Price:</span> £${costPrice}</li>
+                        <li class="list-group-item d-flex justify-content-between"><span class="text-muted mr-5">Selling Price:</span> £${sellingPrice}</li>
                     </ul>
                 </p>
-                <button class='remove'>Remove</button>
+                <a href="#" class='edit card-link mx-4 my-2' data-toggle="modal" data-target="#editProductModal">Edit</a>
+                <a href="#" class='remove card-link mx-4 my-2'>Remove</a>
             </div>
         </div>`
 
     productDiv.innerHTML = innerHTML;
     output_productContainer.appendChild(productDiv);
-    }
-
-function calculateGP(){
-
-    function setVatRate(){
-        if (form_vatRate.value === 'zero'){
-            return 1;
-        }else if (form_vatRate.value === '20percent') {
-            return 1.2;
-        };
-    };
-
-    let name = form_product.value;
-    let cost = parseFloat(form_cost.value).toFixed(2);
-    let vatFactor = setVatRate();
-    let selling = parseFloat(form_selling.value).toFixed(2);
-    let cashProfit = ((selling/vatFactor) - cost).toFixed(2);
-    let gpPercentage = (cashProfit / (selling/vatFactor)) * 100;
-    gpPercentage = gpPercentage.toFixed(2);
-
-    let newProduct = new Product(name, cost, vatFactor, selling, cashProfit, gpPercentage);
-    products.push(newProduct);
-    clearForm();
-
-    createProductCards(newProduct);
 }
 
 function removeParentElement(e){
-    if(e.target.tagName === 'BUTTON'){
+
+    if(e.target.classList.contains('remove')){
         const button = e.target;
-        const product = button.parentNode;
+        const product = button.parentNode.parentNode.parentNode;
         product.remove();
     }
-
-
 }
+
 
 /////////////////////////
 // Event Listeners
 /////////////////////////
 
-form_calculate.addEventListener('click', calculateGP);
+form_calculate.addEventListener('click', addProduct);
 output_productContainer.addEventListener('click', removeParentElement);
