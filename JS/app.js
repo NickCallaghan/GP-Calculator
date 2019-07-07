@@ -5,7 +5,7 @@ const form_product = document.querySelector('#productName');
 const form_cost = document.querySelector('#costPrice');
 const form_selling = document.querySelector('#sellingPrice');
 const form_vatRate = document.querySelector('#vatRate');
-const form_calculate = document.querySelector('#calculate');
+const submitButtonProduct = document.querySelector('#submit');
 const form_gp_calculator = document.querySelector('#gpCalculator');
 const output_productContainer = document.querySelector('#productContainer');
 
@@ -15,32 +15,32 @@ let products = []; // Array of objects containing all products
 // Class Definitions
 /////////////////////////
 
-class Product{
-    
-    constructor(name, costPrice, sellingPrice, vatPercent){
-        this.id = products.length+1;
+class Product {
+
+    constructor(name, costPrice, sellingPrice, vatPercent) {
+        this.id = products.length + 1;
         this.name = name;
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
         this.vatPercent = vatPercent;
         this.cashProfit = this.calcCashProfit();
-        this.gpPercent = this.calcGpPercent();     
+        this.gpPercent = this.calcGpPercent();
     }
 
-    calcCashProfit(){
+    calcCashProfit() {
         return (this.sellingPrice / this.returnVatX()) - this.costPrice;
     }
 
-    calcGpPercent(){
+    calcGpPercent() {
         const vatX = this.returnVatX(this.vatPercent);
         const sellingPrice = this.sellingPrice;
         const costPrice = this.costPrice;
-        const gpPercent = (((sellingPrice/ vatX) - costPrice) / ( sellingPrice/ vatX) * 100);
+        const gpPercent = (((sellingPrice / vatX) - costPrice) / (sellingPrice / vatX) * 100);
         return gpPercent
     }
 
-    returnVatX(){
-        return (this.vatPercent/100)+1;
+    returnVatX() {
+        return (this.vatPercent / 100) + 1;
     }
 
 }
@@ -49,41 +49,81 @@ class Product{
 // Functions
 /////////////////////////
 
-function clearForm(){
+function clearForm() {
     form_product.value = '';
     form_cost.value = '';
     form_selling.value = '';
     form_vatRate.value = '20';
 }
 
-function formValidates(){
+function formValidates() {
+    // This function validates the inputs of the add product form and returns a bool.
 
-    return true;
+    const nameRegex = /^[a-zA-z0-9 ]+$/;
+    const priceRegex = /^£?[\d]+\.?(\d\d)?/;
+
+    // Functions to test the individual form elements
+    function validateProductName() {
+        if (nameRegex.test(form_product.value)) {
+            return true;
+        }
+    }
+
+    function validateCostPrice() {
+        if (priceRegex.test(form_cost.value)) {
+            return true
+        }
+    }
+
+    function validateSellingPrice() {
+        if (priceRegex.test(form_selling.value) && (form_selling.value > form_cost.value)) {
+            return true
+        }
+    }
+
+    // Testing if all inputs on the form validate and returnin the overall true/false value
+    if (validateProductName() && validateCostPrice() && validateSellingPrice()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-function addProduct(){
-    
+function enableProductForm() {
+    if (formValidates()) {
+        console.log('form validates');
+        submitButtonProduct.removeAttribute("disabled");
+    }
+    if (!formValidates()) {
+        console.log('form does not validate');
+        submitButtonProduct.setAttribute("disabled", "");
+    }
+}
+
+function addProduct() {
+
     const productName = form_product.value;
     const costPrice = parseFloat(form_cost.value);
     const sellingPrice = parseFloat(form_selling.value);
-    const vatPercent = parseFloat(form_vatRate.value); 
+    const vatPercent = parseFloat(form_vatRate.value);
 
-    if (formValidates){
+    if (formValidates) {
 
         const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
         products.push(newProduct);
 
         generateProductDiv(newProduct);
-        clearForm();    
+        clearForm();
+        submitButtonProduct.setAttribute("disabled", "");
     }
 }
 
-function generateProductDiv(newProduct){
+function generateProductDiv(newProduct) {
 
     let productDiv = document.createElement('DIV');
     productDiv.classList.add('product');
     productDiv.setAttribute("data-product-id", newProduct.id);
-    
+
     let name = newProduct.name;
     let costPrice = newProduct.costPrice.toFixed(2);
     let sellingPrice = newProduct.sellingPrice.toFixed(2);
@@ -111,9 +151,10 @@ function generateProductDiv(newProduct){
     output_productContainer.appendChild(productDiv);
 }
 
-function removeParentElement(e){
 
-    if(e.target.classList.contains('remove')){
+function removeProduct(e) {
+
+    if (e.target.classList.contains('remove')) {
         const button = e.target;
         const product = button.parentNode.parentNode.parentNode;
         product.remove();
@@ -125,5 +166,16 @@ function removeParentElement(e){
 // Event Listeners
 /////////////////////////
 
-form_calculate.addEventListener('click', addProduct);
-output_productContainer.addEventListener('click', removeParentElement);
+// Add a product event listener
+submitButtonProduct.addEventListener('click', (e) => {
+    console.log(e.target);
+    e.preventDefault();
+    addProduct();
+});
+
+form_gp_calculator.addEventListener('input', (e) => {
+    console.log(e.target);
+    enableProductForm();
+});
+
+output_productContainer.addEventListener('click', removeProduct);
