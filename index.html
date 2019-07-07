@@ -20,6 +20,7 @@
 
   </nav> <!-- END NAV-->
 
+
   <div id="main" class="container-fluid bg-light clearfix">
 
     <!-- BEGIN PRODUCT INPUT FORM-->
@@ -35,20 +36,20 @@
         <div class="form-row align-items-center">
           <fieldset class="form-group w-100">
             <label for="productName">Product Name:</label>
-            <input type="text" class="form-control" id="productName" name="product_name"
+            <input type="text" class="form-control" id="productName" name="product_name" maxlength="15"
               placeholder="Enter product to add...">
           </fieldset>
 
           <fieldset class="form-group w-100">
             <label for="costPrice">Cost Price(net)</label>
             <input type="number" class="form-control" id="costPrice" name="product_cost_price" placeholder="£0.00"
-              min="0" max="999.99">
+              min="0" max="999.99" maxlength="6">
           </fieldset>
 
           <fieldset class="form-group w-100">
             <label for="sellingPrice">Selling Price (inc VAT)</label>
             <input type="number" class="form-control" id="sellingPrice" name="product_selling_price" placeholder="£0.00"
-              min="0" max="999.99">
+              min="0" max="999.99" maxlength="6">
           </fieldset>
 
           <fieldset class="form-group w-100">

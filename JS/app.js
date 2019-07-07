@@ -91,31 +91,27 @@ function formValidates() {
 
 function enableProductForm() {
     if (formValidates()) {
-        console.log('form validates');
         submitButtonProduct.removeAttribute("disabled");
     }
     if (!formValidates()) {
-        console.log('form does not validate');
         submitButtonProduct.setAttribute("disabled", "");
     }
 }
 
 function addProduct() {
 
+    //Assign form values to Variables
     const productName = form_product.value;
     const costPrice = parseFloat(form_cost.value);
     const sellingPrice = parseFloat(form_selling.value);
     const vatPercent = parseFloat(form_vatRate.value);
 
-    if (formValidates) {
-
-        const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
-        products.push(newProduct);
-
-        generateProductDiv(newProduct);
-        clearForm();
-        submitButtonProduct.setAttribute("disabled", "");
-    }
+    const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
+    products.push(newProduct);
+    generateProductDiv(newProduct);
+    clearForm();
+    submitButtonProduct.setAttribute("disabled", "");
+    localStorage.setItem('products', JSON.stringify(products));
 }
 
 function generateProductDiv(newProduct) {
@@ -156,8 +152,25 @@ function removeProduct(e) {
 
     if (e.target.classList.contains('remove')) {
         const button = e.target;
-        const product = button.parentNode.parentNode.parentNode;
-        product.remove();
+        const productToRemove = button.parentNode.parentNode.parentNode;
+        const productToRemoveID = productToRemove.getAttribute('data-product-id');
+
+        products = products.filter(product => product.id != productToRemoveID);
+        productToRemove.remove();
+        saveToStorage(products);
+    }
+}
+
+function saveToStorage(products) {
+    localStorage.setItem('products', JSON.stringify(products));
+}
+
+function displayProducts(products) {
+    products = JSON.parse(localStorage.getItem('products'));
+    if (products.length > 0) {
+        products.forEach(function (product) {
+            generateProductDiv(product);
+        });
     }
 }
 
@@ -168,14 +181,14 @@ function removeProduct(e) {
 
 // Add a product event listener
 submitButtonProduct.addEventListener('click', (e) => {
-    console.log(e.target);
     e.preventDefault();
     addProduct();
 });
 
-form_gp_calculator.addEventListener('input', (e) => {
-    console.log(e.target);
+form_gp_calculator.addEventListener('input', () => {
     enableProductForm();
 });
 
 output_productContainer.addEventListener('click', removeProduct);
+
+window.addEventListener('DOMContentLoaded', displayProducts);
