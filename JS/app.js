@@ -59,7 +59,7 @@ function clearForm() {
 function formValidates() {
     // This function validates the inputs of the add product form and returns a bool.
 
-    const nameRegex = /^[a-zA-z0-9 ]+$/;
+    const nameRegex = /^[a-zA-z0-9'!@, ]+$/;
     const priceRegex = /^£?[\d]+\.?(\d\d)?/;
 
     // Functions to test the individual form elements
