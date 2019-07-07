@@ -108,26 +108,37 @@ function addProduct() {
 
     const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
     products.push(newProduct);
-    generateProductDiv(newProduct);
+    localStorage.setItem('products', JSON.stringify(products));
     clearForm();
     submitButtonProduct.setAttribute("disabled", "");
-    localStorage.setItem('products', JSON.stringify(products));
+    console.log(products);
+    console.log('products: ', products.length);
+
+    if (products.length > 0) {
+        products = sortProductsByName(products);
+    }
+
+    // generateProductDiv(newProduct);
+    // clearProductDiv();
+    // // displayProducts();
+
+    // console.log(products);
 }
 
-function generateProductDiv(newProduct) {
+function generateProductDiv(product) {
 
     let productDiv = document.createElement('DIV');
     productDiv.classList.add('product');
-    productDiv.setAttribute("data-product-id", newProduct.id);
+    productDiv.setAttribute("data-product-id", product.id);
 
-    let name = newProduct.name;
-    let costPrice = newProduct.costPrice.toFixed(2);
-    let sellingPrice = newProduct.sellingPrice.toFixed(2);
-    let cashProfit = newProduct.cashProfit.toFixed(2);
-    let gpPercent = newProduct.gpPercent.toFixed(2);
+    let name = product.name;
+    let costPrice = product.costPrice.toFixed(2);
+    let sellingPrice = product.sellingPrice.toFixed(2);
+    let cashProfit = product.cashProfit.toFixed(2);
+    let gpPercent = product.gpPercent.toFixed(2);
 
     let innerHTML =
-        `<div class="card ml-2 mr-1 mb-2 p-0 pb-2">
+        `<div class="card ml-0 mr-3 mb-2 p-0 pb-2">
             <div class="card-body p-0">
                 <h4 class="card-title m-4">${name}</h4>
                 <h6 class="card-subtitle ml-4 text-muted">GP: ${gpPercent}%</h6>
@@ -147,6 +158,10 @@ function generateProductDiv(newProduct) {
     output_productContainer.appendChild(productDiv);
 }
 
+function clearProductDiv() {
+    const productsDiv = document.getElementById("productContainer");
+    productsDiv.innerHTML = '';
+}
 
 function removeProduct(e) {
 
@@ -165,7 +180,22 @@ function saveToStorage(products) {
     localStorage.setItem('products', JSON.stringify(products));
 }
 
-function displayProducts(products) {
+function sortProductsByName(unsortedProducts) {
+    products = unsortedProducts.sort(function (a, b) {
+        var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+    });
+    console.log(products);
+}
+
+
+function displayProducts() {
     products = JSON.parse(localStorage.getItem('products'));
     if (products.length > 0) {
         products.forEach(function (product) {
