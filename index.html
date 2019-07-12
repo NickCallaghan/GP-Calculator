@@ -20,14 +20,28 @@
 
   </nav> <!-- END NAV-->
 
-  <div id="toolbar"class="container py-2 mx-0">
-    <label for="btn-group">Sort By</label>
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button id="sortByAZ"type="button" class="btn btn-secondary border border-white">A-Z</button>
-      <button id="sortByCashProfit"type="button" class="btn btn-secondary border border-white">£</button>
-      <button id="sortByGPpercentage"type="button" class="btn btn-secondary border border-white">%</button>
+  <div id="toolbar" class="container py-2 mx-0">
+    <div class="form-check-inline">
+      <input id="sortByAzRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+        value="option1" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        A-Z
+      </label>
     </div>
-
+    <div class="form-check-inline">
+      <input id="sortByCashProfitRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+        value="option2">
+      <label class="form-check-label" for="exampleRadios2">
+        £
+      </label>
+    </div>
+    <div class="form-check-inline">
+      <input id="sortByGPRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+        value="option3">
+      <label class="form-check-label" for="exampleRadios3">
+        GP%
+      </label>
+    </div>
   </div>
 
 

@@ -9,10 +9,11 @@ const submitButtonProduct = document.querySelector('#submit');
 const form_gp_calculator = document.querySelector('#gpCalculator');
 const output_productContainer = document.querySelector('#productContainer');
 
-const sortByAZ = document.querySelector('#sortByAZ');
-const sortByCashProfit = document.querySelector('#sortByCashProfit');
-const sortByGPpercentage = document.querySelector('#sortByGPpercentage');
+const sortByAZ = document.querySelector('#sortByAzRadio');
+const sortByCashProfit = document.querySelector('#sortByCashProfitRadio');
+const sortByGPpercentage = document.querySelector('#sortByGPRadio');
 
+let sortOrder = "AZ"; // Product Sort Order
 let products = [];
 let productStore = new ProductStore(products);
 
@@ -80,6 +81,7 @@ function addProduct() {
     const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
     productStore.products.push(newProduct);
     clearForm();
+    saveToStorage(productStore);
     submitButtonProduct.setAttribute("disabled", "");
     console.log(productStore.products);
 
@@ -137,18 +139,24 @@ function removeProduct(e) {
         const productToRemoveID = productToRemove.getAttribute('data-product-id');
 
         productStore.products = productStore.products.filter(product => product.id != productToRemoveID);
+        saveToStorage(productStore)
         productToRemove.remove();
     }
 }
 
-function saveToStorage(products) {
-    localStorage.setItem('products', JSON.stringify(products));
+function saveToStorage(productStore) {
+    localStorage.setItem('products', JSON.stringify(productStore.products));
 }
 
-function checkForLocalStorage(){
+function refreshFromStorage(productStore) {
+    productStore.products = JSON.parse(localStorage.getItem('products'));
+}
+
+
+function checkForLocalStorage() {
     console.log('Checking Local Storage')
-    const storageExists = function(){
-        if (!localStorage.getItem('products')){
+    const storageExists = function () {
+        if (!localStorage.getItem('products')) {
             console.log('storage exits');
             return true
         } else {
@@ -156,21 +164,22 @@ function checkForLocalStorage(){
             return false;
         }
     }
-    if (storageExists){
+    if (storageExists) {
         products = JSON.parse(localStorage.getItem('products)'));
     }
 }
 
-function startUp(){
+function startUp() {
     console.log('Page loaded');
-    checkForLocalStorage();
+    refreshFromStorage(productStore);
     displayProducts();
 }
 
 
 function displayProducts() {
     if (productStore.products.length) {
-        products.forEach((product) => {
+        console.log('local storage detected')
+        productStore.products.forEach((product) => {
             generateProductDiv(product);
         });
     }
@@ -193,21 +202,23 @@ form_gp_calculator.addEventListener('input', () => {
 
 output_productContainer.addEventListener('click', removeProduct);
 
-sortByCashProfit.addEventListener('click', () =>{
+sortByCashProfit.addEventListener('click', (e) => {
+    console.log(e.target);
     productStore.sortProductsByCashProfit();
     refreshProductDiv();
 })
 
-sortByAZ.addEventListener('click', () =>{
+sortByAZ.addEventListener('click', (e) => {
+    console.log(e.target);
     console.log('sorting by az');
     productStore.sortProductsByName();
     refreshProductDiv();
 })
 
-sortByGPpercentage.addEventListener('click', () =>{
-    console.log('sorting by az');
+sortByGPpercentage.addEventListener('click', (e) => {
+    console.log(e.target);
     productStore.sortProductsByGP();
     refreshProductDiv();
 })
 
-// window.addEventListener('DOMContentLoaded', startUp);
+window.addEventListener('DOMContentLoaded', startUp);
