@@ -9,6 +9,10 @@ const submitButtonProduct = document.querySelector('#submit');
 const form_gp_calculator = document.querySelector('#gpCalculator');
 const output_productContainer = document.querySelector('#productContainer');
 
+const sortByAZ = document.querySelector('#sortByAZ');
+const sortByCashProfit = document.querySelector('#sortByCashProfit');
+const sortByGPpercentage = document.querySelector('#sortByGPpercentage');
+
 let products = [];
 let productStore = new ProductStore(products);
 
@@ -81,9 +85,10 @@ function addProduct() {
 
     if (productStore.products.length) {
         productStore.sortProductsByName();
+        output_productContainer.innerHTML = "";
+        refreshProductDiv();
     }
-    output_productContainer.innerHTML = "";
-    displayProducts();
+
 }
 
 function generateProductDiv(product) {
@@ -119,9 +124,9 @@ function generateProductDiv(product) {
     output_productContainer.appendChild(productDiv);
 }
 
-function clearProductDiv() {
-    const productsDiv = document.getElementById("productContainer");
-    productsDiv.innerHTML = '';
+function refreshProductDiv() {
+    output_productContainer.innerHTML = "";
+    displayProducts();
 }
 
 function removeProduct(e) {
@@ -165,7 +170,7 @@ function startUp(){
 
 function displayProducts() {
     if (productStore.products.length) {
-        products.forEach(function (product) {
+        products.forEach((product) => {
             generateProductDiv(product);
         });
     }
@@ -187,5 +192,22 @@ form_gp_calculator.addEventListener('input', () => {
 });
 
 output_productContainer.addEventListener('click', removeProduct);
+
+sortByCashProfit.addEventListener('click', () =>{
+    productStore.sortProductsByCashProfit();
+    refreshProductDiv();
+})
+
+sortByAZ.addEventListener('click', () =>{
+    console.log('sorting by az');
+    productStore.sortProductsByName();
+    refreshProductDiv();
+})
+
+sortByGPpercentage.addEventListener('click', () =>{
+    console.log('sorting by az');
+    productStore.sortProductsByGP();
+    refreshProductDiv();
+})
 
 // window.addEventListener('DOMContentLoaded', startUp);
