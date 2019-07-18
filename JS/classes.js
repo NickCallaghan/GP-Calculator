@@ -38,6 +38,16 @@ class ProductStore {
         this.products = productsArray;
     }
 
+    refreshSortOrder(sortOrder){
+        if (sortOrder === 'AZ'){
+            this.sortProductsByName()
+        } else if (sortOrder === 'Cash'){
+            this.sortProductsByCashProfit()
+        } else if (sortOrder === 'Percentage'){
+            this.sortProductsByGP()
+        }
+    }
+
     sortProductsByName() {
         this.products = this.products.sort(function (a, b) {
             var nameA = a.name.toUpperCase(); // ignore upper and lowercase

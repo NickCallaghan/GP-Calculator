@@ -20,30 +20,6 @@
 
   </nav> <!-- END NAV-->
 
-  <div id="toolbar" class="container py-2 mx-0">
-    <div class="form-check-inline">
-      <input id="sortByAzRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-        value="option1" checked>
-      <label class="form-check-label" for="exampleRadios1">
-        A-Z
-      </label>
-    </div>
-    <div class="form-check-inline">
-      <input id="sortByCashProfitRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-        value="option2">
-      <label class="form-check-label" for="exampleRadios2">
-        £
-      </label>
-    </div>
-    <div class="form-check-inline">
-      <input id="sortByGPRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-        value="option3">
-      <label class="form-check-label" for="exampleRadios3">
-        GP%
-      </label>
-    </div>
-  </div>
-
 
   <div id="main" class="container-fluid bg-light d-flex flex-row-reverse mr-0 pr-0 mt-0 pt-0">
 
@@ -96,7 +72,31 @@
     </div> <!-- END PRODUCT INPUT FORM-->
 
     <!-- BEGIN PRODUCTS CONTAINER -->
-    <div class="container-fluid px-3">
+    <div class="container-fluid px-3 pl-0">
+
+      <div id="toolbar" class="container py-2 px-4 mx-0 my-2 ml-0 border border-primary">
+        <div class="form-check-inline">
+          <input id="sortByAzRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+            value="AZ" checked>
+          <label class="form-check-label" for="exampleRadios1">
+            A-Z
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <input id="sortByCashProfitRadio" class="form-check-input" type="radio" name="exampleRadios"
+            id="exampleRadios2" value="Cash">
+          <label class="form-check-label" for="exampleRadios2">
+            £
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <input id="sortByGPRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+            value="GP-Percentage">
+          <label class="form-check-label" for="exampleRadios3">
+            GP%
+          </label>
+        </div>
+      </div>
 
       <h2 class="pt-3 mb-3">Products</h2>
 
@@ -132,17 +132,17 @@
 
 
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
   </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
-  <script src="JS/classes.js"></script>
-  <script src="JS/app.js"></script>
+  <script defer src="JS/classes.js"></script>
+  <script defer src="JS/app.js"></script>
   <!-- <script src="JS/parsley.min.js"></script> -->
 </body>
 

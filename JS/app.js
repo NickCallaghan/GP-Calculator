@@ -171,7 +171,9 @@ function checkForLocalStorage() {
 
 function startUp() {
     console.log('Page loaded');
+    sortOrder = localStorage.getItem('sortOrder');
     refreshFromStorage(productStore);
+    productStore.refreshSortOrder(sortOrder);
     displayProducts();
 }
 
@@ -183,6 +185,11 @@ function displayProducts() {
             generateProductDiv(product);
         });
     }
+}
+
+function setSortOrder(sortOrder){
+    localStorage.setItem('sortOrder', sortOrder);
+    return sortOrder;
 }
 
 
@@ -205,12 +212,14 @@ output_productContainer.addEventListener('click', removeProduct);
 sortByCashProfit.addEventListener('click', (e) => {
     console.log(e.target);
     productStore.sortProductsByCashProfit();
+    setSortOrder('Cash');
     refreshProductDiv();
 })
 
 sortByAZ.addEventListener('click', (e) => {
     console.log(e.target);
     console.log('sorting by az');
+    setSortOrder('AZ');
     productStore.sortProductsByName();
     refreshProductDiv();
 })
@@ -218,6 +227,7 @@ sortByAZ.addEventListener('click', (e) => {
 sortByGPpercentage.addEventListener('click', (e) => {
     console.log(e.target);
     productStore.sortProductsByGP();
+    setSortOrder('Percentage');
     refreshProductDiv();
 })
 
