@@ -173,26 +173,10 @@ function refreshFromStorage(productStore) {
 }
 
 
-function checkForLocalStorage() {
-    const storageExists = function () {
-        if (!localStorage.getItem('products')) {
-            console.log('storage exits');
-            return true
-        } else {
-            console.log('no local  storeage');
-            return false;
-        }
-    }
-    if (storageExists) {
-        products = JSON.parse(localStorage.getItem('products)'));
-    }
-}
-
 function startUp() {
     // refreshes sort order from local storage
-    sortOrder = localStorage.getItem('sortOrder');
-    checkSortRadio(sortOrder);
     refreshFromStorage(productStore);
+    sortOrder = localStorage.getItem('sortOrder');
     productStore.refreshSortOrder(sortOrder);
     if (productStore.products){
         displayProducts();
