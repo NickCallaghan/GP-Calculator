@@ -22,6 +22,15 @@ let productStore = new ProductStore([]);
 // Functions
 /////////////////////////
 
+const localStorageExits = function () {
+
+    if (localStorage.getItem('products') === null) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function clearForm() {
     form_product.value = '';
     form_cost.value = '';
@@ -177,11 +186,14 @@ function refreshFromStorage(productStore) {
 
 function startUp() {
     // refreshes sort order from local storage
-    refreshFromStorage(productStore);
-    checkSortRadio();
-    productStore.refreshSortOrder(sortOrder);
-    if (productStore.products) {
-        displayProducts();
+
+    if (localStorageExits()) {
+        refreshFromStorage(productStore);
+        checkSortRadio();
+        productStore.refreshSortOrder(sortOrder);
+        if (productStore.products) {
+            displayProducts();
+        }
     }
 }
 
