@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-gb">
 
 <head>
   <meta charset="utf-8">
@@ -43,13 +43,13 @@
           <fieldset class="form-group w-100">
             <label for="costPrice">Cost Price(net)</label>
             <input type="number" class="form-control" id="costPrice" name="product_cost_price" placeholder="£0.00"
-              min="0" max="999.99" maxlength="6">
+              min="0" max="999.99">
           </fieldset>
 
           <fieldset class="form-group w-100">
             <label for="sellingPrice">Selling Price (inc VAT)</label>
             <input type="number" class="form-control" id="sellingPrice" name="product_selling_price" placeholder="£0.00"
-              min="0" max="999.99" maxlength="6">
+              min="0" max="999.99">
           </fieldset>
 
           <fieldset class="form-group w-100">
@@ -76,23 +76,20 @@
 
       <div id="toolbar" class="container py-2 px-4 mx-0 my-2 ml-0 border border-primary">
         <div class="form-check-inline">
-          <input id="sortByAzRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-            value="AZ">
-          <label class="form-check-label" for="exampleRadios1">
+          <input checked id="sortByAzRadio" class="form-check-input" type="radio" name="exampleRadios" value="AZ">
+          <label class="form-check-label" for="sortByAzRadio">
             A-Z
           </label>
         </div>
         <div class="form-check-inline">
-          <input id="sortByCashProfitRadio" class="form-check-input" type="radio" name="exampleRadios"
-            id="exampleRadios2" value="Cash">
-          <label class="form-check-label" for="exampleRadios2">
+          <input id="sortByCashProfitRadio" class="form-check-input" type="radio" name="exampleRadios" value="Cash">
+          <label class="form-check-label" for="sortByCashProfitRadio">
             £
           </label>
         </div>
         <div class="form-check-inline">
-          <input id="sortByGPRadio" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-            value="GP-Percentage">
-          <label class="form-check-label" for="exampleRadios3">
+          <input id="sortByGPRadio" class="form-check-input" type="radio" name="exampleRadios" value="GP-Percentage">
+          <label class="form-check-label" for="sortByGPRadio">
             GP%
           </label>
         </div>
@@ -100,9 +97,9 @@
 
       <h2 class="pt-3 mb-3">Products</h2>
 
-      <section id="productContainer" class="row">
+      <div id="productContainer" class="row">
 
-      </section>
+      </div>
 
     </div>
 
