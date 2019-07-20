@@ -4,8 +4,8 @@
 
 class Product {
 
-    constructor(name, costPrice, sellingPrice, vatPercent) {
-        this.id = products.length + 1 || 1;
+    constructor(name, costPrice, sellingPrice, vatPercent, productStore) {
+        this.id = productStore.products.length + 1 || 1;
         this.name = name;
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
@@ -36,6 +36,16 @@ class ProductStore {
 
     constructor(productsArray) {
         this.products = productsArray;
+    }
+
+    refreshSortOrder(sortOrder){
+        if (sortOrder === 'AZ'){
+            this.sortProductsByName()
+        } else if (sortOrder === 'Cash'){
+            this.sortProductsByCashProfit()
+        } else if (sortOrder === 'Percentage'){
+            this.sortProductsByGP()
+        }
     }
 
     sortProductsByName() {
