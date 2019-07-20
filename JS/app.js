@@ -1,6 +1,8 @@
 /////////////////////////
 // Global Variables
 /////////////////////////
+
+//Form Elements
 const form_product = document.querySelector('#productName');
 const form_cost = document.querySelector('#costPrice');
 const form_selling = document.querySelector('#sellingPrice');
@@ -14,8 +16,7 @@ const sortByCashProfit = document.querySelector('#sortByCashProfitRadio');
 const sortByGPpercentage = document.querySelector('#sortByGPRadio');
 
 let sortOrder; // Product Sort Order
-let products = [];
-let productStore = new ProductStore(products);
+let productStore = new ProductStore([]);
 
 /////////////////////////
 // Functions
@@ -70,17 +71,18 @@ function enableProductForm() {
     }
 }
 
-function checkSortRadio(sortOrder){
-    
-    if (sortOrder === 'AZ'){
+function checkSortRadio() {
+    sortOrder = localStorage.getItem('sortOrder');
+
+    if (sortOrder === 'AZ') {
         sortByAZ.setAttribute('checked', "");
         return
     }
-    if (sortOrder === 'Cash'){
+    if (sortOrder === 'Cash') {
         sortByCashProfit.setAttribute('checked', "");
         return
     }
-    if (sortOrder === 'Percentage'){
+    if (sortOrder === 'Percentage') {
         sortByGPpercentage.setAttribute('checked', "");
         return
     } else {
@@ -176,21 +178,21 @@ function refreshFromStorage(productStore) {
 function startUp() {
     // refreshes sort order from local storage
     refreshFromStorage(productStore);
-    sortOrder = localStorage.getItem('sortOrder');
+    checkSortRadio();
     productStore.refreshSortOrder(sortOrder);
-    if (productStore.products){
+    if (productStore.products) {
         displayProducts();
     }
 }
 
 function displayProducts() {
-        productStore.products.forEach((product) => {
-            generateProductDiv(product);
-        });
+    productStore.products.forEach((product) => {
+        generateProductDiv(product);
+    });
 }
 
 // Save sort order to local storage so that it can be refreshed on page reload
-function setSortOrder(sortOrder){
+function setSortOrder(sortOrder) {
     localStorage.setItem('sortOrder', sortOrder);
     return sortOrder;
 }
