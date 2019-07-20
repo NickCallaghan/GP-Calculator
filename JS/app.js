@@ -13,7 +13,7 @@ const sortByAZ = document.querySelector('#sortByAzRadio');
 const sortByCashProfit = document.querySelector('#sortByCashProfitRadio');
 const sortByGPpercentage = document.querySelector('#sortByGPRadio');
 
-let sortOrder = "AZ"; // Product Sort Order
+let sortOrder; // Product Sort Order
 let products = [];
 let productStore = new ProductStore(products);
 
@@ -70,6 +70,25 @@ function enableProductForm() {
     }
 }
 
+function checkSortRadio(sortOrder){
+    
+    if (sortOrder === 'AZ'){
+        sortByAZ.setAttribute('checked', "");
+        return
+    }
+    if (sortOrder === 'Cash'){
+        sortByCashProfit.setAttribute('checked', "");
+        return
+    }
+    if (sortOrder === 'Percentage'){
+        sortByGPpercentage.setAttribute('checked', "");
+        return
+    } else {
+        sortOrder = 'AZ';
+        sortByAZ.setAttribute('checked', "");
+    }
+}
+
 function addProduct() {
 
     //Assign form values to Variables
@@ -78,14 +97,13 @@ function addProduct() {
     const sellingPrice = parseFloat(form_selling.value);
     const vatPercent = parseFloat(form_vatRate.value);
 
-    const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent);
+    const newProduct = new Product(productName, costPrice, sellingPrice, vatPercent, productStore);
     productStore.products.push(newProduct);
     clearForm();
     saveToStorage(productStore);
     submitButtonProduct.setAttribute("disabled", "");
-    console.log(productStore.products);
 
-    if (productStore.products.length) {
+    if (productStore.products) {
         productStore.sortProductsByName();
         output_productContainer.innerHTML = "";
         refreshProductDiv();
@@ -136,9 +154,11 @@ function removeProduct(e) {
     if (e.target.classList.contains('remove')) {
         const button = e.target;
         const productToRemove = button.parentNode.parentNode.parentNode;
-        const productToRemoveID = productToRemove.getAttribute('data-product-id');
+        const productToRemoveID = parseInt(productToRemove.getAttribute('data-product-id'));
+        console.log(productToRemove);
+        console.log(productToRemoveID);
 
-        productStore.products = productStore.products.filter(product => product.id != productToRemoveID);
+        productStore.products = productStore.products.filter(product => product.id !== productToRemoveID);
         saveToStorage(productStore)
         productToRemove.remove();
     }
@@ -154,7 +174,6 @@ function refreshFromStorage(productStore) {
 
 
 function checkForLocalStorage() {
-    console.log('Checking Local Storage')
     const storageExists = function () {
         if (!localStorage.getItem('products')) {
             console.log('storage exits');
@@ -170,23 +189,23 @@ function checkForLocalStorage() {
 }
 
 function startUp() {
-    console.log('Page loaded');
+    // refreshes sort order from local storage
     sortOrder = localStorage.getItem('sortOrder');
+    checkSortRadio(sortOrder);
     refreshFromStorage(productStore);
     productStore.refreshSortOrder(sortOrder);
-    displayProducts();
-}
-
-
-function displayProducts() {
-    if (productStore.products.length) {
-        console.log('local storage detected')
-        productStore.products.forEach((product) => {
-            generateProductDiv(product);
-        });
+    if (productStore.products){
+        displayProducts();
     }
 }
 
+function displayProducts() {
+        productStore.products.forEach((product) => {
+            generateProductDiv(product);
+        });
+}
+
+// Save sort order to local storage so that it can be refreshed on page reload
 function setSortOrder(sortOrder){
     localStorage.setItem('sortOrder', sortOrder);
     return sortOrder;
@@ -203,32 +222,32 @@ submitButtonProduct.addEventListener('click', (e) => {
     addProduct();
 });
 
-form_gp_calculator.addEventListener('input', () => {
-    enableProductForm();
+// Enable form if inputs are valid
+form_gp_calculator.addEventListener('input', () => enableProductForm());
+
+// Removes a product from the product container
+output_productContainer.addEventListener('click', (e) => {
+    removeProduct(e)
 });
 
-output_productContainer.addEventListener('click', removeProduct);
-
-sortByCashProfit.addEventListener('click', (e) => {
-    console.log(e.target);
+// Sorts product card based on which radio button is selected
+sortByCashProfit.addEventListener('click', () => {
     productStore.sortProductsByCashProfit();
     setSortOrder('Cash');
     refreshProductDiv();
 })
 
-sortByAZ.addEventListener('click', (e) => {
-    console.log(e.target);
-    console.log('sorting by az');
+sortByAZ.addEventListener('click', () => {
     setSortOrder('AZ');
     productStore.sortProductsByName();
     refreshProductDiv();
 })
 
-sortByGPpercentage.addEventListener('click', (e) => {
-    console.log(e.target);
+sortByGPpercentage.addEventListener('click', () => {
     productStore.sortProductsByGP();
     setSortOrder('Percentage');
     refreshProductDiv();
 })
 
+//Runs startup routine to re-cache local storage once page loads
 window.addEventListener('DOMContentLoaded', startUp);
