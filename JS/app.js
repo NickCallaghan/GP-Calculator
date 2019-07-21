@@ -115,7 +115,7 @@ function addProduct() {
     submitButtonProduct.setAttribute("disabled", "");
 
     if (productStore.products) {
-        productStore.sortProductsByName();
+        productStore.refreshSortOrder(sortOrder);
         output_productContainer.innerHTML = "";
         refreshProductDiv();
     }
@@ -231,19 +231,19 @@ output_productContainer.addEventListener('click', (e) => {
 // Sorts product card based on which radio button is selected
 sortByCashProfit.addEventListener('click', () => {
     productStore.sortProductsByCashProfit();
-    setSortOrder('Cash');
+    sortOrder = setSortOrder('Cash');
     refreshProductDiv();
 })
 
 sortByAZ.addEventListener('click', () => {
-    setSortOrder('AZ');
+    sortOrder = setSortOrder('AZ');
     productStore.sortProductsByName();
     refreshProductDiv();
 })
 
 sortByGPpercentage.addEventListener('click', () => {
     productStore.sortProductsByGP();
-    setSortOrder('Percentage');
+    sortOrder = setSortOrder('Percentage');
     refreshProductDiv();
 })
 
